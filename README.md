@@ -2,7 +2,7 @@
 Open source T-Dagger Bali keyboard driver software for linux. \
 This script is reversed enginered T-Dagger's Bali keyboard USB protocol in action.
 
-It ***should be fine*** running this script on other similar keyboard, since i captured usb packets with [T-TGK**305**'s software](https://www.t-dagger.com/pages/download) for my _T-TGK**311**_ keyboard[^1] (since t-dagger does not have any software for my keyboard).
+It ***should be fine*** running this script on other similar keyboard, since i captured usb packets with [T-TGK**305**'s software](https://www.t-dagger.com/pages/download) on my _T-TGK**311**_ keyboard[^1] (since t-dagger does not have any software for my keyboard).
 
 If you are worried if it works or not, test if [Destroyer T-TGK305's software](https://www.t-dagger.com/pages/download) works for you. If not, I recommend not using this script[^2].
 
@@ -45,4 +45,4 @@ sudo python main.py
 
 
 [^1]: exact serial number of the keyboard: `T-TGK311-BL210400119`.
-[^2]: When i was testing with different data and data length, my keyboard did not show any weired signs. so my guess is messing around with this script on other keyboards is fine.
+[^2]: When i was testing with different data and data length, my keyboard did not show any weired signs. so my guess is messing around with this script on other keyboards is fine. the worse that did happen during testing was that the leds turned off, but the keys were still working and i did manage to switch to another mode 
