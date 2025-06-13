@@ -13,18 +13,18 @@ class Mode:
 	
 	def hex_data(self):
 		# Values when mode does not support the property.
-		# These values get ignored by keyboard, so theoretically
-		# you can put any hex value and not get any errors.
+		# These values get ignored by keyboard if not needed,
+		# so theoretically you can put any hex value and
+		# not get any errors.
 		brt = "00" # brightness
 		spd = "00" # speed
 		cgp = "00" # color group
 
 		if hasattr(self, 'brightness'):
-			brt = "0" + str(self.brightness)
+			brt = f"0{str(self.brightness)}"
 		if hasattr(self, 'speed'):
-			spd = "0" + str(self.speed)
+			spd = f"0{str(self.speed)}"
 		if hasattr(self, 'color_group'):
-			print()
 			cgp = f"0{self.color_group:01x}"
 			
 		data = "0a" + f"{self.id+1:02d}" + cgp + spd + brt

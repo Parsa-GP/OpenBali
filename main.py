@@ -10,9 +10,20 @@ if __name__ == "__main__":
 
   # Find the USB device
   # change idVendor and idProduct if keyboard is different
+  
+  # If linux, run `lsusb`
+  # `258a:002a`
+  # > 258a -> idVendor  = 0x258a
+  # > 002a -> idProduct = 0x002a
+
+  # If Windows, get hardware id: https://answers.microsoft.com/en-us/windows/forum/all/find-the-hardware-device-id-for-windows11-10-and/403da2f8-5834-4ab9-b501-dc3630959c38
+  # `USB\VID_258A&PID_002A`
+  # > VID_258A -> idVendor  = 0x258a
+  # > PID_002A -> idProduct = 0x002a
+
   dev = usb.core.find(idVendor=0x258a, idProduct=0x002a)
   if dev is None:
-    print("Device not found. grab usb id (258a:002a -like value) from running `lsusb` and put it in code.")
+    print("Device not found. grab usb id and put it in code.")
     exit(1)
 
   # If you are not using the supported keyboard,
@@ -34,7 +45,6 @@ if __name__ == "__main__":
   if dev.is_kernel_driver_active(1):
     dev.detach_kernel_driver(1)
   
-
   # Uncomment if not worky
   #dev.set_configuration()
 
