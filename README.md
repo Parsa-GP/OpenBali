@@ -35,13 +35,13 @@ sudo python main.py
 ```
 
 ## TODO
-[X] Make basic mode switch work
-[X] Add settings for modes (only brightness and speed)
-[X] Add color group support for "***Gaming Special Key***"
-[ ] Customizable lights for "***Gaming Special Key***" custom profiles
-[ ] Adding key macros and key remapping
-[ ] Add presets
-[ ] Support for Windows (_god forbid_)
+- [X] Make basic mode switch work
+- [X] Add settings for modes (only brightness and speed)
+- [X] Add color group support for "***Gaming Special Key***"
+- [ ] Customizable lights for "***Gaming Special Key***" custom profiles
+- [ ] Adding key macros and key remapping
+- [ ] Add presets
+- [ ] Support for Windows (_god forbid_)
 
 
 [^1]: exact serial number of the keyboard: `T-TGK311-BL210400119`.
