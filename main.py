@@ -4,7 +4,6 @@ from modes import *
 
 if __name__ == "__main__":
   hex_data = Steady().hex_data()
-  #hex_data = GamingSpecialKey(brightness=4, color_group=6).hex_data()
 
   # Convert hex to bytes
   data = binascii.unhexlify(hex_data)

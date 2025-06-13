@@ -24,10 +24,11 @@ class Mode:
 		if hasattr(self, 'speed'):
 			spd = "0" + str(self.speed)
 		if hasattr(self, 'color_group'):
-			cgp = "0" + str(self.color_group)
+			print()
+			cgp = f"0{self.color_group:01x}"
 			
 		data = "0a" + f"{self.id+1:02d}" + cgp + spd + brt
-		return f"{data:084}"
+		return f"{data:084}" # padding 84 zero's
 
 
 class Steady(Mode):
