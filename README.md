@@ -10,18 +10,19 @@ If you are worried if it works or not, test if [Destroyer T-TGK305's software](h
 > I **CANNOT GARANTEE** THAT THIS SCRIPT WORKS FOR YOUR KEYBOARD IF MODEL IS NOT **EXACTLY** `T-TGK311-BL`. IF YOU BROKE YOUR KEYBOARD WITH THIS SCRIPT OR INSTRUCTIONS, I AM NOT RESPONSIBLE FOR YOUR ACTIONS. just saying.
 
 This project could become an open keyboard driver software! It just needs YOUR help. you can do these steps to contribute:
-1. record your screen with your keyboard software opened (because timing stuff and which packet is for which setting).
-2. Capture usb packets with wireshark in usbcap mode.
-3. Apply every possible configuration for your keyboard in the driver software.
-4. Stop the recording and upload the capture file and video in github issues.
-This way, the packets that sets the keyboards settings gets captured and i can use it to make settings for it. **Make sure that wireshark is visible on the video.**
+1. open your keyboard software
+2. Start capturing usb packets with wireshark in usbcap mode.
+3. Apply every possible configuration you can for your keyboard in the driver software.
+4. Stop the recording and write **Your exact keyboard model**, **Which software did you use along with exact version** and **upload the capture file** in github issues.
+This way, the packets that sets the keyboards settings gets captured and i can use it to make settings for it.
+Or, you know, write your kb's protocol in python and open a PR to merge it to the script.
+
 
 ## Instructions
-1. Make a virtual enviornment to install packages:
+1. Make a virtual enviornment and activate it to install packages:
 ```
 uv env
-# Activate the virtual enviornment
-source .venv/bin/activate
+source .env/bin/activate
 ```
 
 2. Install PyUSB module:
@@ -34,14 +35,28 @@ pip install pyusb
 sudo python main.py
 ```
 
+
+## How protocol works
+These are the packets that the software sends:
+
+| **order** 	| **length** 	| **name**           	| **description**                     	| **when to send**                  	|
+|-----------	|------------	|--------------------	|-------------------------------------	|-----------------------------------	|
+| 1         	| ~80b       	| Mode data          	| which mode with which settings      	| sent always                       	|
+| 2         	| ~1900b     	| Macro data         	| sends all macro to keyboard         	| sent only when macro data changes 	|
+| 3         	| ~540b      	| Key remapping data 	| which data to send when key pressed 	| sent always                       	|
+|           	|            	|                    	|                                     	|                                   	|
+
 ## TODO
 - [X] Make basic mode switch work
 - [X] Add settings for modes (only brightness and speed)
 - [X] Add color group support for "***Gaming Special Key***"
-- [ ] Customizable lights for "***Gaming Special Key***" custom profiles
 - [ ] Adding key macros and key remapping
+- [ ] Change code structure so it would be easy to add another keyboard support
+- [ ] Add config file to save keyboard id (prevent searching for compatible keyboard each time), store profiles, presets and last mode used
 - [ ] Add presets
+- [ ] Customizable lights for "***Gaming Special Key***" custom profiles
 - [ ] Support for Windows (_god forbid_)
+- [ ] GUI support
 
 
 [^1]: exact serial number of the keyboard: `T-TGK311-BL210400119`.
