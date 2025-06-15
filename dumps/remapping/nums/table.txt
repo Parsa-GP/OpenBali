@@ -1,0 +1,62 @@
+in dumps, actual data fragment starts at exactly 0x24th byte, the 0x09 character to the end
+
+
+
+
+KEYS
+1 = 29
+2 = 3a
+3 = 3b
+4 = 3c
+5 = 3d
+6 = 3e
+7 = 3f
+8 = 40
+9 = 41
+0 = 42
+
+
+VALUES
+e = 08
+q = 14
+r = 15
+t = 17
+w = 1a
+1 = 1e
+2 = 1f
+3 = 20
+4 = 21
+5 = 22
+6 = 23
+7 = 24
+8 = 25
+9 = 26
+0 = 27
+
+
+EXAMPLE
+
+[remap 7 to write 9]
+3f 26
+=>
+00 00 00 3f   00 00 00 26
+
+hex dec
+1e = 30
+29 = 41
+31 = 49
+
+
+NO
+
+cell 43(val=1e) is for 1(1e)
+cell 47 is for q
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 import usb.core
 import binascii
 from modes import *
+import lab
 
 if __name__ == "__main__":
   hex_data = Steady().hex_data()
@@ -53,3 +54,4 @@ if __name__ == "__main__":
   # Send SET_REPORT request
   print(hex_data)
   dev.ctrl_transfer(bmRequestType=0x21, bRequest=0x09, wValue=0x030A, wIndex=1, data_or_wLength=data, timeout=1000)
+  lab.send_req(dev)

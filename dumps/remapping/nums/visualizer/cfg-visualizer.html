@@ -1,0 +1,327 @@
+<!-- Before anything, I would like to thanks chatgipperty for writing this for me. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Layout</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+    }
+    .tooltip {
+      position: absolute;
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      pointer-events: none;
+      font-size: 12px;
+      white-space: nowrap;
+      display: none;
+      z-index: 100;
+    }
+    #kb {
+      position: absolute;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+  <img src="keyimg.png" id="kb">
+  <canvas id="canvas" width="800" height="400"></canvas>
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    const input = `
+
+[KEY]
+;Esc
+K1=14,43,33,64, 0x02,0x1B,0x00,6
+;F1
+K2=74,43,93,64, 0x02,0x70,0x00,12
+;F2
+K3=103,43,122,64, 0x02,0x71,0x00,18
+;F3
+K4=132,43,151,64, 0x02,0x72,0x00,24
+;F4
+K5=162,43,181,64, 0x02,0x73,0x00,30
+;F5
+K6=205,43,224,64, 0x02,0x74,0x00,36
+;F6
+K7=234,43,253,64, 0x02,0x75,0x00,42
+;F7
+K8=264,43,283,64, 0x02,0x76,0x00,48
+;F8
+K9=294,43,313,64, 0x02,0x77,0x00,54
+;F9
+K10=338,43,357,64, 0x02,0x78,0x00,60
+;F10
+K11=366,43,385,64, 0x02,0x79,0x00,66
+;F11
+K12=396,43,415,64, 0x02,0x7A,0x00,72
+;F12
+K13=425,43,444,64, 0x02,0x7B,0x00,78
+;PrtSc
+K14=462,43,481,64, 0x02,0x2C,0x00,84
+;SrcLock
+K15=490,43,509,64, 0x02,0x91,0x00,90
+;Pause
+K16=520,43,539,64, 0x02,0x13,0x00,96
+;\`
+K17=14,78,33,99, 0x02,0xC0,0x00,1
+;1
+K18=44,78,63,99, 0x02,0x31,0x00,7
+;2
+K19=74,78,93,99, 0x02,0x32,0x00,13
+;3
+K20=103,78,122,99, 0x02,0x33,0x00,19
+;4
+K21=133,78,152,99, 0x02,0x34,0x00,25
+;5
+K22=162,78,181,99, 0x02,0x35,0x00,31
+;6
+K23=191,78,210,99, 0x02,0x36,0x00,37
+;7
+K24=221,78,240,99, 0x02,0x37,0x00,43
+;8
+K25=250,78,269,99, 0x02,0x38,0x00,49
+;9
+K26=279,78,298,99, 0x02,0x39,0x00,55
+;0
+K27=308,78,327,99, 0x02,0x30,0x00,61
+;-
+K28=337,78,356,99, 0x02,0xBD,0x00,67
+;=
+K29=366,78,385,99, 0x02,0xBB,0x00,73
+;Backspace
+K30=396,78,441,99, 0x02,0x8,0x00,79
+;Insert
+K31=461,78,480,99, 0x02,0x2D,0x00,85
+;Home
+K32=490,78,509,99, 0x02,0x24,0x00,91
+;PgUp
+K33=520,78,539,99, 0x02,0x21,0x00,97
+;NumLock
+K34=557,78,576,99, 0x02,0x90,0x00,103
+;Num /
+K35=586,78,605,99, 0x02,0x6F,0x00,109
+;Num*
+K36=616,78,635,99, 0x02,0x6A,0x00,115
+;Num-
+K37=645,78,664,99, 0x02,0x6D,0x00,121
+;Tab
+K38=15,108,47,129, 0x02,0x9,0x00,2
+;Q
+K39=59,108,78,129, 0x02,0x51,0x00,8
+;W
+K40=88,108,107,129, 0x02,0x57,0x00,14
+;E
+K41=117,108,136,129, 0x02,0x45,0x00,20
+;R
+K42=148,108,167,129, 0x02,0x52,0x00,26
+;T
+K43=177,108,196,129, 0x02,0x54,0x00,32
+;Y
+K44=206,108,225,129, 0x02,0x59,0x00,38
+;U
+K45=235,108,254,129, 0x02,0x55,0x00,44
+;I
+K46=264,108,283,129, 0x02,0x49,0x00,50
+;O
+K47=293,108,312,129, 0x02,0x4F,0x00,56
+;P
+K48=322,108,341,129, 0x02,0x50,0x00,62
+;[
+K49=351,108,370,129, 0x02,0xDB,0x00,68
+;]
+K50=380,108,399,129, 0x02,0xDD,0x00,74
+;\\
+K51=409,108,440,129, 0x02,0xDC,0x00,80
+;Delete
+K52=461,107,480,128, 0x02,0x2E,0x00,86
+;End
+K53=490,107,509,128, 0x02,0x23,0x00,92
+;PgDn
+K54=519,107,538,128, 0x02,0x22,0x00,98
+;Num7
+K55=556,108,575,129, 0x02,0x67,0x00,104
+;Num8
+K56=586,108,605,129, 0x02,0x68,0x00,110
+;Num9
+K57=616,108,635,129, 0x02,0x69,0x00,116
+;Num+
+K58=644,108,663,160, 0x02,0x6B,0x00,122
+;CapsLock
+K59=14,137,54,158, 0x02,0x14,0x00,3
+;A
+K60=66,138,85,159, 0x02,0x41,0x00,9
+;S
+K61=96,138,115,159, 0x02,0x53,0x00,15
+;D
+K62=125,138,144,159, 0x02,0x44,0x00,21
+;F
+K63=154,138,173,159, 0x02,0x46,0x00,27
+;G
+K64=184,138,203,159, 0x02,0x47,0x00,33
+;H
+K65=213,138,232,159, 0x02,0x48,0x00,39
+;J
+K66=242,138,261,159, 0x02,0x4A,0x00,45
+;K
+K67=272,138,291,159, 0x02,0x4B,0x00,51
+;L
+K68=301,138,320,159, 0x02,0x4C,0x00,57
+;;
+K69=330,138,349,159, 0x02,0xBA,0x00,63
+;'
+K70=359,138,378,159, 0x02,0xDE,0x00,69
+;Enter
+K71=388,138,440,159, 0x02,0xD,0x00,81
+;Num4
+K72=557,138,576,159, 0x02,0x64,0x00,105
+;Num5
+K73=586,138,605,159, 0x02,0x65,0x00,111
+;Num6
+K74=616,138,635,159, 0x02,0x66,0x00,117
+;LShift
+K75=15,167,69,188, 0x02,0xA0,0x00,4
+;Z
+K76=81,167,100,188, 0x02,0x5A,0x00,10
+;X
+K77=110,167,129,188, 0x02,0x58,0x00,16
+;C
+K78=139,167,158,188, 0x02,0x43,0x00,22
+;V
+K79=169,167,188,188, 0x02,0x56,0x00,28
+;B
+K80=198,167,217,188, 0x02,0x42,0x00,34
+;N
+K81=228,167,247,188, 0x02,0x4E,0x00,40
+;M
+K82=257,167,276,188, 0x02,0x4D,0x00,46
+;,
+K83=286,167,305,188, 0x02,0xBC,0x00,52
+;.
+K84=315,167,334,188, 0x02,0xBE,0x00,58
+;/
+K85=344,167,363,188, 0x02,0xBF,0x00,64
+;RShift
+K86=373,167,440,188, 0x02,0xA1,0x00,76
+;Up
+K87=490,168,509,189, 0x02,0x26,0x00,94
+;Num1
+K88=556,167,575,188, 0x02,0x61,0x00,106
+;Num2
+K89=586,167,605,188, 0x02,0x62,0x00,112
+;Num3
+K90=616,167,635,188, 0x02,0x63,0x00,118
+;LCtrl
+K91=14,196,39,217, 0x02,0xA2,0x00,5
+;LWin
+K92=52,196,77,217, 0x02,0x5B,0x00,11
+;LAlt
+K93=89,196,114,217, 0x02,0xA4,0x00,17
+;Space
+K94=126,196,296,217, 0x02,0x20,0x00,35
+;RAlt
+K95=308,196,333,217, 0x02,0xA5,0x00,53
+;Fn
+K96=344,196,369,217, 0x02,0xFA,0x00,59
+;App
+K97=380,196,404,217, 0x02,0x5D,0x00,65
+;RCtrl
+K98=416,197,441,218, 0x02,0xA3,0x00,77
+;Left
+K99=460,198,479,219, 0x02,0x25,0x00,89
+;Down
+K100=490,198,509,219, 0x02,0x28,0x00,95
+;Right
+K101=519,198,538,219, 0x02,0x27,0x00,101
+;Num0
+K102=556,197,604,218, 0x02,0x60,0x00,107
+;Num .
+K103=615,196,634,217, 0x02,0x6E,0x00,119
+;NumEnter
+K104=645,168,664,219, 0x02,0xFD,0x00,124
+`;
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip');
+
+    const keys = [];
+
+    const lines = input.split('\n');
+    let currentLabel = '';
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith(';')) {
+        currentLabel = line.substring(1).trim();
+      } else if (line.startsWith('K')) {
+        const [keyDef, coordsStr] = line.split('=');
+        const parts = coordsStr.split(',');
+        const x1 = parseInt(parts[0]);
+        const y1 = parseInt(parts[1]);
+        const x2 = parseInt(parts[2]);
+        const y2 = parseInt(parts[3]);
+        const meta = parts.slice(4).map(s => s.trim()).join(',');
+        keys.push({
+          label: currentLabel,
+          keyId: keyDef.trim(),
+          x: x1,
+          y: y1,
+          w: x2 - x1,
+          h: y2 - y1,
+          info: `${keyDef.trim()} = ${meta}`
+        });
+      }
+    }
+
+    function drawKeys(mouseX, mouseY) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let hovering = false;
+
+      for (const key of keys) {
+        const isHover = mouseX >= key.x && mouseX <= key.x + key.w &&
+                        mouseY >= key.y && mouseY <= key.y + key.h;
+
+        ctx.fillStyle = isHover ? '#555' : '#0000';
+        ctx.fillRect(key.x, key.y, key.w, key.h);
+
+        ctx.strokeStyle = '#f00';
+        ctx.strokeRect(key.x, key.y, key.w, key.h);
+
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        if (isHover) {
+          ctx.fillText(key.label, key.x + key.w / 2, key.y + key.h / 2);
+          tooltip.style.left = mouseX+24 + 'px';
+          tooltip.style.top = mouseY+24 + 'px';
+          tooltip.innerText = key.info;
+          tooltip.style.display = 'block';
+          hovering = true;
+        }
+      }
+
+      if (!hovering) {
+        tooltip.style.display = 'none';
+      }
+    }
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      drawKeys(x, y);
+    });
+
+    drawKeys(-1, -1);
+  </script>
+</body>
+</html>

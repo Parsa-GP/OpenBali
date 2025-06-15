@@ -55,8 +55,8 @@ These are the packets that the software sends:
 - [ ] Add config file to save keyboard id (prevent searching for compatible keyboard each time), store profiles, presets and last mode used
 - [ ] Add presets
 - [ ] Customizable lights for "***Gaming Special Key***" custom profiles
-- [ ] Support for Windows (_god forbid_)
 - [ ] GUI support
+- [ ] Support for Windows (_god forbid_)
 
 
 [^1]: exact serial number of the keyboard: `T-TGK311-BL210400119`.
